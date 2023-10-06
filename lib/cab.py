@@ -1,7 +1,7 @@
 #lib/cab.py
-#!/usr/bin/env python3
+#!/usr/bin/python3
 from datetime import datetime
-from sqlalchemy import Column,Integer, String, create_engine,desc, CheckConstraint, PrimaryKeyConstraint, UniqueConstraint, Index, DateTime 
+from sqlalchemy import Column,Integer, String, create_engine,DateTime 
 from sqlalchemy.orm import declarative_base, sessionmaker
 
 Base = declarative_base()
@@ -17,22 +17,21 @@ class Customer(Base):
 
     def __repr__(self):
         return f"The rider's name is {self.name} and the booking time is {self.booking_time}"
+    
+class Driver(Base):
+    __tablename__ = 'drivers'
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String())
+    license_number = Column(String())
 
 if __name__ == '__main__':
     engine = create_engine('sqlite:///cab.db')
     Base.metadata.create_all(engine)
 
-#configuring a session
-Session = sessionmaker(bind=engine)
-#use  'Session' class to create 'session' object
-session = Session()
 
-derrick = Customer(name="Derrick", gender="male", email="derrick@gmail.com") 
-whitney = Customer(name="Whitney", gender="female", email="whitney@gmail.com") 
-wendy = Customer(name="Wendy", gender="female", email="wendy@gmail.com") 
 
-session.add_all([derrick, whitney,wendy])
-session.commit()
+
 
 
 
